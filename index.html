@@ -90,12 +90,30 @@
 <!-- ========== 6B：11月 ========== -->
 <section class="chapter chapter--green" id="nov" data-floor="6B">
   <header class="chapter__head">
-    <p class="floor">6B</p>
+    <div class="floor-wrap">
+      <p class="floor">6B</p>
+      <img class="floor-real" src="img/floor/6b.webp" width="556" height="360" alt="店内の「6B」の階表示。" loading="lazy">
+    </div>
     <div>
       <h2>手が、<br>看板を書き換えた。</h2>
       <p class="lede">閉店を前に、看板に白い手があらわれた。上の手は T を差しこみ、下の手は D を K に変えている。HANDS は THANKS になった。</p>
     </div>
   </header>
+  <div class="compare-block">
+    <div class="compare" id="compare" style="--x: 50%">
+      <img src="img/compare/may.webp" width="1489" height="2000" alt="2026年5月、交差点の角から見たハンズ渋谷店。看板は HANDS。" loading="lazy">
+      <img class="compare__after" src="img/compare/nov.webp" width="1489" height="2000" alt="2026年11月、同じ角から。看板は THANKS。" loading="lazy">
+      <span class="compare__tag compare__tag--before" aria-hidden="true">2026.05</span>
+      <span class="compare__tag compare__tag--after" aria-hidden="true">2026.11</span>
+      <span class="compare__bar" aria-hidden="true"><i></i></span>
+      <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="5月と11月の写真の境目を動かす">
+    </div>
+    <div class="compare__text">
+      <h3>同じ角から、5月と11月。</h3>
+      <p>交差点の同じ角から撮った2枚を重ねました。境目を左右に動かすと、5文字の HANDS が、6文字の THANKS に変わります。</p>
+    </div>
+  </div>
+
   <div class="strip" data-ch="nov" tabindex="0" aria-label="11月の看板の写真。横にスクロールできます"></div>
 
   <div class="find">
@@ -114,9 +132,12 @@
 <!-- ========== 5C：街 ========== -->
 <section class="chapter" id="street" data-floor="5C">
   <header class="chapter__head">
-    <p class="floor">5C</p>
+    <div class="floor-wrap">
+      <p class="floor">5C</p>
+      <img class="floor-real" src="img/floor/5c.webp" width="536" height="360" alt="店内の「5C」の階表示。" loading="lazy">
+    </div>
     <div>
-      <h2>街のほうからも、<br>ありがとう。</h2>
+      <h2>店の外から、<br>ありがとう。</h2>
       <p class="lede">「渋谷のランドマークとして、この街の文化を支えてくださいました」</p>
     </div>
   </header>
@@ -126,7 +147,10 @@
 <!-- ========== 4A：売り場 ========== -->
 <section class="chapter" id="inside" data-floor="4A">
   <header class="chapter__head">
-    <p class="floor">4A</p>
+    <div class="floor-wrap">
+      <p class="floor">4A</p>
+      <img class="floor-real" src="img/floor/4a.webp" width="561" height="360" alt="店内の「4A」の階表示。" loading="lazy">
+    </div>
     <div>
       <h2>最後の売り場も、<br>色でいっぱい。</h2>
       <p class="lede">10月16日から11月15日まで「48年間、ありがとうセール」。棚の上には「おかげさまで50年」の札。</p>
@@ -138,7 +162,10 @@
 <!-- ========== 3B：記録 ========== -->
 <section class="chapter chapter--paper" id="archive" data-floor="3B">
   <header class="chapter__head">
-    <p class="floor">3B</p>
+    <div class="floor-wrap">
+      <p class="floor">3B</p>
+      <img class="floor-real" src="img/floor/3b.webp" width="553" height="360" alt="店内の「3B」の階表示。" loading="lazy">
+    </div>
     <div>
       <h2>東急ハンズ<br>だったころ。</h2>
       <p class="lede">メモリアル展示に残っていた、昔のフロアガイド。半階ずつずれて重なる「スキップフロア」を、24のフロアとして案内していた。このページの章番号も、そこから借りています。</p>
@@ -170,10 +197,13 @@
 <!-- ========== B2C：寄せ書き ========== -->
 <section class="chapter" id="b2" data-floor="B2C">
   <header class="chapter__head">
-    <p class="floor">B2C</p>
+    <div class="floor-wrap">
+      <p class="floor">B2C</p>
+      <img class="floor-real" src="img/floor/b2c.webp" width="641" height="360" alt="店内の「B2C」の階表示。" loading="lazy">
+    </div>
     <div>
       <h2>いちばん下の階に、<br>いちばん多くの言葉。</h2>
-      <p class="lede">通りから直接入れるB2の「Green」。入口のポスター、エレベーター前のメモリアル展示、その先に続く寄せ書きの壁。お客さんの思い出がカードになって、壁を埋めていた。</p>
+      <p class="lede">階段を降りてB2Cへ。そのさらに下にあるのが、B2の「Green」。通りからも直接入れる。入口のポスター、エレベーター前のメモリアル展示、その先に続く寄せ書きの壁。お客さんの思い出がカードになって、壁を埋めていた。</p>
     </div>
   </header>
   <div class="masonry" data-ch="b2"></div>
@@ -193,6 +223,9 @@
     </p>
     <p class="exit__msg">48年間、ありがとうございました。</p>
   </div>
+  <figure class="exit__sign">
+    <img src="img/exit/sign-night.webp" width="1067" height="1600" alt="夜、暗闇の中で光る縦の THANKS の看板。" loading="lazy">
+  </figure>
 </section>
 
 

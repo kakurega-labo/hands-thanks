@@ -131,6 +131,20 @@
     });
   });
 
+  /* ---------- 5月と11月の比較 ---------- */
+  const cmp = document.getElementById('compare');
+  if (cmp) {
+    const range = cmp.querySelector('.compare__range');
+    const set = v => cmp.style.setProperty('--x', v + '%');
+    range.addEventListener('input', () => set(range.value));
+    // 指で触ったところに境目を合わせる（縦スクロールはそのまま）
+    let drag = false;
+    const at = e => { const r = cmp.getBoundingClientRect(); const v = Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100)); range.value = v; set(v); };
+    cmp.addEventListener('pointerdown', e => { drag = true; at(e); });
+    addEventListener('pointermove', e => { if (drag) at(e); });
+    addEventListener('pointerup', () => { drag = false; });
+  }
+
   /* ---------- 閉店までのカウントダウン ---------- */
   const CLOSE = new Date('2026-11-15T19:00:00+09:00').getTime();
   const exit = document.getElementById('exit');

@@ -23,6 +23,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
@@ -168,6 +169,8 @@ main { padding-right: var(--rail-w); }
   margin: 0 calc(var(--pad) * -1); padding: 0 var(--pad) 18px;
   scrollbar-color: rgba(255,255,255,.4) transparent;
 }
+/* 横スクロールの枠には、タップしたときのピンクの枠を出さない */
+.strip:focus, .strip:focus-visible { outline: none; }
 .strip .ph { flex: 0 0 auto; width: auto; scroll-snap-align: start; margin: 0; }
 .strip .ph img { height: min(64svh, 620px); width: auto; }
 .strip .ph figcaption { color: rgba(255,255,255,.7); max-width: 28em; }
@@ -185,7 +188,8 @@ main { padding-right: var(--rail-w); }
 }
 .btn:hover { background: var(--white); color: var(--green-deep); border-color: var(--white); }
 
-.lens { position: relative; cursor: none; touch-action: none; user-select: none; }
+/* ルーペが写真の外にはみ出してページの横幅を広げないよう、写真の枠で切る */
+.lens { position: relative; cursor: none; touch-action: none; user-select: none; overflow: hidden; }
 .lens img { width: 100%; }
 .lens--tall { width: min(100%, calc(84svh * 1376 / 2000)); }
 .lens__glass {
@@ -209,18 +213,48 @@ main { padding-right: var(--rail-w); }
 }
 .guide__floors b { font-family: var(--floor); font-weight: 700; font-size: 28px; color: var(--pink); line-height: 1; }
 
+/* ---------- 章番号の横の実物写真 ---------- */
+.floor-wrap { display: flex; align-items: flex-end; gap: 14px; }
+.floor-real { height: clamp(72px, 9vw, 124px); width: auto; display: block; border-radius: 3px; }
+
+/* ---------- 5月と11月の比較 ---------- */
+.compare-block { display: grid; grid-template-columns: minmax(0, 480px) minmax(0, 22em); gap: clamp(24px, 4vw, 56px); align-items: end; margin-bottom: clamp(56px, 8vw, 96px); }
+.compare { position: relative; overflow: hidden; touch-action: pan-y; user-select: none; }
+.compare img { display: block; width: 100%; height: auto; pointer-events: none; }
+.compare__after { position: absolute; inset: 0; height: 100% !important; object-fit: cover; clip-path: inset(0 0 0 var(--x)); }
+.compare__bar { position: absolute; top: 0; bottom: 0; left: var(--x); width: 3px; margin-left: -1.5px; background: var(--white); box-shadow: 0 0 0 1px rgba(0,0,0,.2); pointer-events: none; }
+.compare__bar i { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: var(--white); box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.compare__bar i::before, .compare__bar i::after { content: ""; position: absolute; top: 14px; border: 6px solid transparent; }
+.compare__bar i::before { left: 2px; border-right-color: var(--green-deep); }
+.compare__bar i::after { right: 2px; border-left-color: var(--green-deep); }
+.compare__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; pointer-events: none; }
+.compare { cursor: ew-resize; }
+.compare:has(.compare__range:focus-visible) .compare__bar i { outline: 3px solid var(--pink); outline-offset: 2px; }
+.compare__tag { position: absolute; top: 12px; padding: 2px 10px; font-family: var(--sign); font-size: 14px; letter-spacing: .08em; background: rgba(15,61,34,.85); color: var(--white); pointer-events: none; }
+.compare__tag--before { left: 12px; }
+.compare__tag--after { right: 12px; }
+.compare__text h3 { margin: 0 0 12px; font-size: clamp(22px, 2.4vw, 30px); font-weight: 900; }
+.compare__text p { margin: 0; color: rgba(255,255,255,.75); }
+
 /* ---------- 出口 ---------- */
-.exit { background: var(--green); color: var(--white); padding: clamp(96px, 14vw, 180px) var(--pad); text-align: center; }
+.exit { background: #000; color: var(--white); padding: clamp(72px, 10vw, 140px) var(--pad) clamp(48px, 6vw, 80px); text-align: center; }
 .exit__inner { max-width: 1000px; margin: 0 auto; }
 .exit__label { margin: 0; font-weight: 700; letter-spacing: .1em; }
-.countdown { display: flex; justify-content: center; gap: clamp(10px, 3vw, 36px); margin: 8px 0 6px; font-weight: 700; }
-.countdown b { font-family: var(--sign); font-weight: 500; font-size: clamp(48px, 9vw, 120px); line-height: 1.05; font-variant-numeric: tabular-nums; margin-right: 4px; }
-.exit__when { margin: 0; color: rgba(255,255,255,.75); }
+.countdown { display: flex; justify-content: center; gap: clamp(10px, 2vw, 28px); margin: 8px 0 6px; font-weight: 700; }
+.countdown b { font-family: var(--sign); font-weight: 500; font-size: clamp(44px, 7vw, 108px); line-height: 1.05; font-variant-numeric: tabular-nums; margin-right: 4px; }
+.exit__when { margin: 0; color: rgba(255,255,255,.7); }
+/* 黒と緑の面は、右端のフロア表示の下まで敷く */
+.chapter--green, .exit { margin-right: calc(var(--rail-w) * -1); padding-right: calc(var(--pad) + var(--rail-w)); }
+/* 光る看板 */
+.exit__sign { margin: clamp(48px, 7vw, 96px) auto 0; }
+.exit__sign img { display: block; margin: 0 auto; height: min(90svh, 960px); width: auto; max-width: 100%; object-fit: contain;
+  -webkit-mask-image: radial-gradient(ellipse 62% 78% at 50% 50%, #000 70%, transparent 100%);
+          mask-image: radial-gradient(ellipse 62% 78% at 50% 50%, #000 70%, transparent 100%); }
 .exit.is-closed .countdown, .exit.is-closed .exit__when { display: none; }
 
 .thanks {
-  margin: clamp(72px, 10vw, 140px) 0 18px; font-family: var(--sign); font-weight: 500;
-  font-size: clamp(56px, 13vw, 200px); line-height: 1; letter-spacing: .12em;
+  margin: clamp(56px, 8vw, 120px) 0 18px; font-family: var(--sign); font-weight: 500;
+  font-size: clamp(52px, 12vw, 190px); line-height: 1; letter-spacing: .12em;
   display: flex; justify-content: center;
 }
 .thanks span { display: inline-block; }
@@ -232,7 +266,12 @@ main { padding-right: var(--rail-w); }
 .thanks { position: relative; z-index: 0; isolation: isolate; }
 .exit__msg { margin: 0; font-size: clamp(18px, 2.2vw, 26px); font-weight: 700; }
 
-.foot { padding: 32px var(--pad) 48px; padding-right: calc(var(--rail-w) + var(--pad)); font-size: 13px; color: var(--mute); border-top: 1px solid rgba(19,38,27,.12); }
+.foot {
+  position: relative; color: rgba(255,255,255,.85); font-size: 13px;
+  padding: 0 var(--pad) 48px; padding-right: calc(var(--rail-w) + var(--pad));
+  background: #000; margin-top: 0;
+  margin-right: 0;
+}
 .foot p { margin: 0 0 4px; }
 
 /* ---------- ライトボックス ---------- */
@@ -277,7 +316,10 @@ main { padding-right: var(--rail-w); }
 
   .chapter__head { grid-template-columns: 1fr; }
   .floor { justify-self: start; }
-  .find, .guide { grid-template-columns: 1fr; }
+  .find, .guide, .compare-block { grid-template-columns: 1fr; }
+  .compare { max-width: 480px; }
+  .exit__sign img { height: min(80svh, 620px); }
+  .floor-real { height: 64px; }
   .strip .ph img { height: 56svh; }
   .lb figure { padding: 56px 8px 12px; }
 }
@@ -321,9 +363,12 @@ main { padding-right: var(--rail-w); }
   .find { grid-template-columns: minmax(0, 18em) minmax(0, 1fr); margin-top: 48px; }
   .find .lens { width: min(100%, calc(80svh * 1.5)); }
   .guide { grid-template-columns: calc(84svh * 1376 / 2000) minmax(0, 1fr); }
+  .compare-block { grid-template-columns: calc(84svh * 1489 / 2000) minmax(0, 1fr); }
+  .exit__sign img { height: 84svh; }
+  .floor-real { height: 56px; }
   .strip .ph img { height: 66svh; }
 
-  .exit { padding-top: 56px; padding-bottom: 56px; }
+  .exit { padding-top: 56px; }
   .thanks { margin-top: 40px; font-size: clamp(48px, 10vw, 120px); }
 
   .lb figure { padding: 40px 56px 6px; }
