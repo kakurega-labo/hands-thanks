@@ -48,7 +48,9 @@
   const hero = document.querySelector('.hero');
   const sign = document.querySelector('.sign');
   const word = document.querySelector('.hero__word');
-  let lastWord = '';
+  let tW = 0;
+  addEventListener('resize', () => { tW = 0; });
+  if (document.fonts) document.fonts.ready.then(() => { tW = 0; onScroll(); });
   function heroTick() {
     const r = hero.getBoundingClientRect();
     const total = hero.offsetHeight - innerHeight;
@@ -58,8 +60,15 @@
     sign.style.setProperty('--p', p.toFixed(4));
     hero.classList.toggle('is-after', p > 0.5);
     // 看板の上から順に変わるので、T が先、K が後
-    const w = p < 0.18 ? 'HANDS' : p < 0.72 ? '<i>T</i>HANDS' : p < 1 ? '<i>T</i>HAN<i>K</i>S' : 'THANKS';
-    if (w !== lastWord) { word.innerHTML = w; lastWord = w; }
+    // T は看板が1.61割ほど切り替わってから、K は7割を過ぎてから。どちらもスクロールに合わせて少しずつ
+    const ease = x => x * x * (3 - 2 * x);
+    const t = ease(Math.min(1, Math.max(0, (p - 0.141) / 0.22)));
+    const k = ease(Math.min(1, Math.max(0, (p - 0.68) / 0.16)));
+    word.style.setProperty('--t', t.toFixed(3));
+    // T の幅は実際のフォントで測る（ほかの文字と同じ間隔になるように）
+    if (!tW) { const s = word.querySelector('.hw-t > span'); tW = s.getBoundingClientRect().width / parseFloat(getComputedStyle(word).fontSize); }
+    word.style.setProperty('--tw', tW.toFixed(4) + 'em');
+    word.style.setProperty('--k', k.toFixed(3));
   }
 
   /* ---------- フロア表示 ---------- */
@@ -135,7 +144,13 @@
   const cmp = document.getElementById('compare');
   if (cmp) {
     const range = cmp.querySelector('.compare__range');
-    const set = v => cmp.style.setProperty('--x', v + '%');
+    const tagMay = cmp.querySelector('.compare__tag--before'), tagNov = cmp.querySelector('.compare__tag--after');
+    // 境目より左が5月、右が11月。見えている面積が少ない方の年月をグレーに
+    const set = v => {
+      cmp.style.setProperty('--x', v + '%');
+      tagMay.classList.toggle('is-dim', v < 50);
+      tagNov.classList.toggle('is-dim', v > 50);
+    };
     range.addEventListener('input', () => set(range.value));
     // 指で触ったところに境目を合わせる（縦スクロールはそのまま）
     let drag = false;

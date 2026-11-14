@@ -128,7 +128,14 @@ main { padding-right: var(--rail-w); }
   font-size: clamp(34px, 4.6vw, 72px); letter-spacing: .14em; color: var(--green-deep); line-height: 1;
   min-height: 1em;
 }
-.hero__word i { font-style: normal; color: var(--pink); }
+.hero__word { --t: 0; --k: 0; white-space: nowrap; display: block; }
+/* T は幅0から広がる。その分 HANDS が右へなめらかに押し出される */
+.hw-t { display: inline-block; vertical-align: top; overflow: hidden; width: calc(var(--t) * var(--tw, 0.8em)); }
+.hw-t > span { display: inline-block; color: var(--pink); opacity: var(--t); transform: translateY(calc((1 - var(--t)) * -0.4em)); }
+/* D の上に K を重ねて入れ替える */
+.hw-dk { position: relative; display: inline-block; }
+.hw-d { display: inline-block; opacity: calc(1 - var(--k)); }
+.hw-k { position: absolute; left: 0; top: 0; color: var(--pink); opacity: var(--k); }
 
 /* ---------- 章 ---------- */
 .chapter { padding: clamp(80px, 12vw, 160px) var(--pad); position: relative; }
@@ -231,6 +238,8 @@ main { padding-right: var(--rail-w); }
 .compare { cursor: ew-resize; }
 .compare:has(.compare__range:focus-visible) .compare__bar i { outline: 3px solid var(--pink); outline-offset: 2px; }
 .compare__tag { position: absolute; top: 12px; padding: 2px 10px; font-family: var(--sign); font-size: 14px; letter-spacing: .08em; background: rgba(15,61,34,.85); color: var(--white); pointer-events: none; }
+.compare__tag { transition: background .2s, color .2s; }
+.compare__tag.is-dim { background: rgba(120,120,120,.75); color: rgba(255,255,255,.7); }
 .compare__tag--before { left: 12px; }
 .compare__tag--after { right: 12px; }
 .compare__text h3 { margin: 0 0 12px; font-size: clamp(22px, 2.4vw, 30px); font-weight: 900; }
@@ -352,7 +361,7 @@ main { padding-right: var(--rail-w); }
   .sign { height: 86svh; justify-self: center; }
   .hero__stamp { position: static; justify-self: start; }
   .stamp { font-size: 16px; }
-  .hero__word { display: block; font-size: clamp(24px, 9svh, 40px); margin-top: 14px; }
+  .hero__word { font-size: clamp(24px, 9svh, 40px); margin-top: 14px; }
 
   .chapter { padding-top: 56px; padding-bottom: 56px; }
   .chapter__head { grid-template-columns: max-content minmax(0, 40em); margin-bottom: 28px; }
