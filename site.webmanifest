@@ -1,0 +1,12 @@
+{
+  "name": "HANDS → THANKS ｜ ハンズ渋谷店、48年間ありがとう。",
+  "short_name": "THANKS",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#1E7A3F",
+  "background_color": "#ECEEE9",
+  "display": "standalone",
+  "start_url": "./"
+}
